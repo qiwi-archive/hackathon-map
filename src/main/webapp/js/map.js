@@ -6,50 +6,75 @@
 define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, search, $) {
 	'use strict';
 
+	var officeWidth = 86,
+		officeHeight = 16,
+		marginHorizontal = 25,
+		marginVertical = 17.4,
+		areaWidth = officeWidth + 2 * marginHorizontal,
+		pictureWidth = 4096, // width + 2 margins
+		pictureHeight = 1536; // height + 2 margins
+
+	var bounds = [
+		[-marginHorizontal, -areaWidth * 10 / 16 - marginVertical],
+		[areaWidth - marginHorizontal, areaWidth * 6 / 16 - marginVertical]
+	];
+	var looseConstraints = [
+		[-marginHorizontal * 3, -marginVertical * 3],
+		[areaWidth + marginHorizontal, areaWidth * 6 / 16 + marginHorizontal]
+	];
+	var strictConstraints = [
+		[-marginHorizontal, -marginVertical],
+		bounds[1]
+	];
+
 	/**
 	 * @public
 	 * @returns {ymaps.Map}
 	 */
 	function createMap() {
-		var myProjection = new ymaps.projection.Cartesian([
-				// Определяем границы области отображения в декартовых координатах.
-				[-1, -1],
-				[1, 1]
-			]);
+		var projection = new ymaps.projection.Cartesian(bounds);
 
 		_.each(this.MAP_TYPES, makeMapTypeInstance);
 
-		// Создадим карту в заданной системе координат.
-		return new ymaps.Map('map', {
-			center:[1, -1],
-			zoom:7,
+		var map = new ymaps.Map('map', {
+			center: [0, 0],
+			zoom: 2,
 			type: this.DEFAULT_MAP_TYPE,
 			behaviors: ['default', 'scrollZoom']
 		}, {
-			maxZoom:10, // Максимальный коэффициент масштабирования для заданной проекции.
-			minZoom:7, // Минимальный коэффициент масштабирования.
-			projection:myProjection
+			maxZoom: 4,
+			minZoom: 2,
+			projection: projection,
+			restrictMapArea: looseConstraints
 		});
+
+		// DEBUG
+		map.events.add('click', function (e) {
+			map.balloon.isOpen() &&
+				map.balloon.close();
+			var coords = e.get('coordPosition');
+			map.balloon.open(coords, {
+				contentBody: [
+					coords[0].toPrecision(6),
+					coords[1].toPrecision(6)
+					].join(', ')
+			});
+		});
+
+		return map;
 	}
 
 	/**
 	 * @param {Object} config
 	 */
 	function makeMapTypeInstance(config) {
-		var MyLayer = function () {
+		var Layer = function () {
 			return new ymaps.Layer(
-				// Зададим функцию, преобразующую номер тайла
-				// и уровень масштабировая в URL тайла на сервере.
-				function (tile, zoom) {
-					return "/tiles/" + config.level + "/" + zoom + "/tile-" + tile[0] + "-" + tile[1] + ".jpg";
-				}
+				'tiles/' + config.level + '/%z/%x-%y.png'
 			);
 		};
 
-		// Добавим конструктор слоя в хранилище слоёв под ключом my#layer.
-		ymaps.layer.storage.add('my#layer' + config.level, MyLayer);
-		// Создадим новый тип карты, состоящий только из нашего слоя тайлов,
-		// и добавим его в хранилище типов карты под ключом my#type.
+		ymaps.layer.storage.add('my#layer' + config.level, Layer);
 		ymaps.mapType.storage.add('my#type' + config.level, new ymaps.MapType(
 			config.name,
 			['my#layer' + config.level]
@@ -58,10 +83,10 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 
 	return {
 		DEFAULT_MAP_TYPE_PREFIX: 'my#type',
-		DEFAULT_MAP_TYPE: 'my#type1',
+		DEFAULT_MAP_TYPE: 'my#type3',
 		MAP_TYPES: [
-			{level: 1, name: 'первый этаж'},
-			{level: 2, name: 'второй этаж'},
+			//{level: 1, name: 'первый этаж'},
+			//{level: 2, name: 'второй этаж'},
 			{level: 3, name: 'третий этаж'},
 			{level: 4, name: 'четвертый этаж'},
 			{level: 5, name: 'пятый этаж'},

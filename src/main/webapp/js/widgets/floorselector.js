@@ -8,7 +8,7 @@ define('widgets/floorselector', ['ui'], function() {
 		 */
 		init: function() {
 			var cmp = new ymaps.control.TypeSelector(
-				['my#type1', 'my#type7']
+				['my#type3', 'my#type4', 'my#type5', 'my#type6', 'my#type7']
 			);
 			this.setEvents(cmp);
 
@@ -21,9 +21,9 @@ define('widgets/floorselector', ['ui'], function() {
 		 */
 		setEvents: function(cmp) {
 			cmp.events
-			    .add('click', function () { console.log('Щёлк'); })
-			    .add('select', function () { console.log('Нажата'); })
-			    .add('deselect', function () { console.log('Отжата'); });
+				.add('click', function () { console.log('Щёлк'); })
+				.add('select', function () { console.log('Нажата'); })
+				.add('deselect', function () { console.log('Отжата'); });
 			return cmp;
 		}
 	}
