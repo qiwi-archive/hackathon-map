@@ -8,13 +8,13 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 
 	var DEFAULT_MAP_TYPE = 'my#type1',
 		MAP_TYPES = [
-			{level: 1},
+			{level: 1, name: 'первый этаж'},
 			{level: 2},
 			{level: 3},
 			{level: 4},
 			{level: 5},
 			{level: 6},
-			{level: 7}
+			{level: 7, name: 'седьмой этаж'}
 		];
 
 	/**
@@ -28,10 +28,10 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 				[1, 1]
 			]);
 
-		_.each(MAP_TYPES, makeMapInstance);
+		_.each(MAP_TYPES, makeMapTypeInstance);
 
 		// Создадим карту в заданной системе координат.
-		return new ymaps.Map('map', {
+		var myMap = new ymaps.Map('map', {
 			center:[1, -1],
 			zoom:7,
 			type: DEFAULT_MAP_TYPE
@@ -40,12 +40,14 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 			minZoom:7, // Минимальный коэффициент масштабирования.
 			projection:myProjection
 		});
+
+		return myMap;
 	}
 
 	/**
 	 * @param {Object} config
 	 */
-	function makeMapInstance(config) {
+	function makeMapTypeInstance(config) {
 		var MyLayer = function () {
 			return new ymaps.Layer(
 				// Зададим функцию, преобразующую номер тайла
@@ -61,7 +63,7 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 		// Создадим новый тип карты, состоящий только из нашего слоя тайлов,
 		// и добавим его в хранилище типов карты под ключом my#type.
 		ymaps.mapType.storage.add('my#type' + config.level, new ymaps.MapType(
-			'Схема',
+			config.name,
 			['my#layer' + config.level]
 		));
 	}
