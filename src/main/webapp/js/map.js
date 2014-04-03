@@ -3,8 +3,64 @@
  * @class map
  * @singleton
  */
-define('map', ['ymaps!'], function(ymaps) {
+define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, search, $) {
 	'use strict';
+
+	function initSearch(map) {
+		var provider = {
+			geocode: function(request, options) {
+				var promise = new ymaps.util.Promise();
+
+				search.query(request, function(places) {
+					var objects = new ymaps.GeoObjectArray();
+
+					base.each(places, function(place) {
+						objects.add(new ymaps.Placemark(place.location, {
+							name: place.name,
+							description: place.description,
+							boundedBy: [place.location, place.location]
+						}));
+					});
+
+					promise.resolve({
+						// Геообъекты поисковой выдачи.
+						geoObjects: objects,
+						// Метаинформация ответа.
+						metaData: {
+							geocoder: {
+								// Строка обработанного запроса.
+								request: request,
+								// Количество найденных результатов.
+								found: places.length,
+								// Количество возвращенных результатов.
+								results: 10,
+								// Количество пропущенных результатов.
+								skip: 0
+							}
+						}
+					});
+				});
+
+				return promise;
+			}
+		};
+
+		var control = new ymaps.control.SearchControl({
+			provider: provider,
+			//noCentering: true,
+			//noPlacemark: true,
+			useMapBounds: true
+		});
+
+		map.controls.add(control);
+
+		// TODO autosubmit by timeout
+
+		// WORKAROUND
+		setTimeout(function() {
+			$('.ymaps-b-search input').focus();
+		}, 0);
+	}
 
 	function createMap() {
 		var myProjection = new ymaps.projection.Cartesian([
@@ -44,6 +100,7 @@ define('map', ['ymaps!'], function(ymaps) {
 			projection:myProjection
 		});
 
+		initSearch(myMap);
 	}
 
 	return {
