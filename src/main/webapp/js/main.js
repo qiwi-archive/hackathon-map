@@ -24,10 +24,11 @@ require.config({
  * Main application logic.
  * @ignore
  */
-require(['log', 'map', 'link', 'place', 'search'], function(log, map, link, place, search) {
+require(['log', 'map', 'ui', 'link', 'place', 'search'], function(log, map, ui, link, place, search) {
 	log('Hi there!');
 
-	map.create();
+	map = map.create();
+	ui.initWidgets(map);
 
 	var current = link.current();
 	current.place &&

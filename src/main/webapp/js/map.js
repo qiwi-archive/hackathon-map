@@ -34,7 +34,7 @@ define('map', ['ymaps!'], function(ymaps) {
 		));
 
 		// Создадим карту в заданной системе координат.
-		var myMap = new ymaps.Map('map', {
+		return new ymaps.Map('map', {
 			center:[1, -1],
 			zoom:7,
 			type:'my#type'
@@ -44,12 +44,6 @@ define('map', ['ymaps!'], function(ymaps) {
 			projection:myProjection
 		});
 
-		// Добавим миникарту и кнопку изменения масштаба на нашу карту.
-		myMap.controls
-			.add(new ymaps.control.MiniMap({
-				type:'my#type'
-			}))
-			.add('smallZoomControl', { right:5, top:5 });
 	}
 
 	return {
