@@ -37,15 +37,15 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 		_.each(this.MAP_TYPES, makeMapTypeInstance);
 
 		var map = new ymaps.Map('map', {
-			center: [0, 0],
+			center: [officeWidth / 2, officeHeight / 2],
 			zoom: 2,
 			type: this.DEFAULT_MAP_TYPE,
 			behaviors: ['default', 'scrollZoom']
 		}, {
 			maxZoom: 4,
-			minZoom: 2,
+			minZoom: 3,
 			projection: projection,
-			restrictMapArea: strictConstraints
+			restrictMapArea: looseConstraints
 		});
 
 		// DEBUG
@@ -70,7 +70,10 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 	function makeMapTypeInstance(config) {
 		var Layer = function () {
 			return new ymaps.Layer(
-				'tiles/' + config.level + '/%z/%x-%y.png'
+				'tiles/' + config.level + '/%z/%x-%y.png',
+				{
+					notFoundTile: 'tiles/empty.png'
+				}
 			);
 		};
 
