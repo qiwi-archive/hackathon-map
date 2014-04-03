@@ -1,12 +1,15 @@
-define('ui', [
-	'widgets/floorselector',
-	'widgets/zoomcontrol',
-	'widgets/search'
-], function() {
-	var widgets = {},
-		args = Array.prototype.slice.call(arguments, 0);
+define(
+	'ui',
+	[
+		'base',
+		'widgets/floor',
+		'widgets/search',
+		'widgets/zoom'
+	],
+function(base) {
+	var widgets = {};
 
-	_.each(args, function(item) {
+	base.each(base.args(arguments, 1), function(item) {
 		item &&
 			(widgets[item.name] = item);
 	});
@@ -21,7 +24,7 @@ define('ui', [
 		initWidgets: function(map) {
 			var ctrl = map.controls;
 
-			_.each(this.widgets, function(item) {
+			base.each(this.widgets, function(item) {
 				try {
 					ctrl.add(item.init());
 				} catch (e) {
@@ -30,5 +33,4 @@ define('ui', [
 			})
 		}
 	}
-
 });

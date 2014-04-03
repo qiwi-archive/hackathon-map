@@ -50,9 +50,7 @@ define('widgets/search', ['ui', 'base', 'search', 'map'], function(ui, base, sea
 
 			var control = new ymaps.control.SearchControl({
 				provider: provider,
-				useMapBounds: true,
-				top: 5,
-				left: 5
+				useMapBounds: true
 			});
 
 			control.events

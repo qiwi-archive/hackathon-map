@@ -88,13 +88,13 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 		DEFAULT_MAP_TYPE_PREFIX: 'my#type',
 		DEFAULT_MAP_TYPE: 'my#type3',
 		MAP_TYPES: [
-			//{level: 1, name: 'первый этаж'},
-			//{level: 2, name: 'второй этаж'},
-			{level: 3, name: 'третий этаж'},
-			{level: 4, name: 'четвертый этаж'},
-			{level: 5, name: 'пятый этаж'},
-			{level: 6, name: 'шестой этаж'},
-			{level: 7, name: 'седьмой этаж'}
+			//{level: 1, name: '1-й этаж'},
+			//{level: 2, name: '2-й этаж'},
+			{level: 3, name: '3-й этаж'},
+			{level: 4, name: '4-й этаж'},
+			{level: 5, name: '5-й этаж'},
+			{level: 6, name: '6-й этаж'},
+			{level: 7, name: '7-й этаж'}
 		],
 
 		create: createMap
