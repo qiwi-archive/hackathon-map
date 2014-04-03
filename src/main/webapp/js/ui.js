@@ -1,5 +1,5 @@
 define('ui', [
-//	'widgets/floorselector',
+	'widgets/floorselector',
 	'widgets/zoomcontrol',
 	'widgets/search'
 ], function() {
