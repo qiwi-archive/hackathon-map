@@ -1,4 +1,8 @@
-define('map', ['ymaps', 'search'], function(ymaps, search) {
+define('map', ['ymaps', 'link', 'place', 'search'], function(ymaps, link, place, search) {
+	var query = link.current();
+	query.place &&
+		place.get(query.place);
+
 	ymaps.ready(function() {
 		var myProjection = new ymaps.projection.Cartesian([
 				// Определяем границы области отображения в декартовых координатах.

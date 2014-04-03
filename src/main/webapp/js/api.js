@@ -53,10 +53,12 @@ define('api', ['base', 'log', 'jquery'], function(base, log, $) {
 			url: url,
 			dataType: 'json',
 			success: function(data, status, xhr) {
-				callback.call(scope, data);
+				log('api', 'RESULT', url, data);
+				base.call(callback, scope, data);
 			},
 			error: function(xhr, status, message) {
-				callback.call(scope, {foo: 'bar'});
+				log('api', 'ERROR', url, status. message);
+				base.call(callback, scope, {foo: 'bar'});
 			}
 		});
 	}
