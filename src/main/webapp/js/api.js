@@ -10,26 +10,83 @@ define('api', ['base', 'log', 'jquery'], function(base, log, $) {
 					name + '=' + value
 			);
 		});
-
 		return parts.length ?
 			'?' + parts.join('&') :
 			'';
 	}
 
-	function request(namespace, id, query) {
-		if (base.isObject(id) && !query) {
-			query = id;
-			id = '';
+	function formatOptions(method, namespace, id, query, callback, scope) {
+		if (base.isFunction(id)) {
+			scope = query;
+			callback = id;
+			query = id = null;
 		}
+		else if (base.isObject(id)) {
+			scope = callback;
+			callback = query;
+			query = id;
+			id = null;
+		}
+		return {method: method, namespace: namespace, id: id, query: query, callback: callback, scope: scope};
+	}
 
-		var url = PREFIX + '/' + namespace + (id ? '/' + id : '') + formatQuery(query);
+	/**
+	 * @member api
+	 * @method request
+	 * @param {Object} options
+	 */
+	function request(options) {
+		var method = options.method || 'GET',
+			namespace = '/' + options.namespace,
+			id = options.id ? '/' + options.id : '',
+			query = options.query,
+			callback = options.callback,
+			scope = options.scope;
 
-		log('api', url);
+		var url = PREFIX + namespace + id + formatQuery(query);
+		log('api', method, url);
 
-		//$.ajax
+		$.ajax({
+			method: method,
+			url: url,
+			success: function() {
+
+			},
+			error: function() {
+
+			}
+		});
+	}
+
+	/**
+	 * @member api
+	 * @method read
+	 * @param {String} namespace
+	 * @param {String/Number} [id]
+	 * @param {Object} [query]
+	 * @param {Function} callback
+	 * @param {Mixed} [scope]
+	 */
+	function read(namespace, id, query, callback, scope) {
+		return request(formatOptions('GET', namespace, id, query, callback, scope));
+	}
+
+	/**
+	 * @member api
+	 * @method write
+	 * @param {String} namespace
+	 * @param {String/Number} [id]
+	 * @param {Object} [query]
+	 * @param {Function} callback
+	 * @param {Mixed} [scope]
+	 */
+	function write(namespace, id, query, callback, scope) {
+		return request(formatOptions('GET', namespace, id, query, callback, scope));
 	}
 
 	return {
-		request: request
+		request: request,
+		read: read,
+		write: write
 	};
 });
