@@ -28,7 +28,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
-					<webXml>web\WEB-INF\web.xml</webXml>
 					<warName>${build.war.name}</warName>
 				</configuration>
 			</plugin>
