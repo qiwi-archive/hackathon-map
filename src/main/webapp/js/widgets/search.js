@@ -1,4 +1,4 @@
-define('widgets/search', ['ui', 'base', 'search'], function(ui, base, search) {
+define('widgets/search', ['ui', 'base', 'search', 'map'], function(ui, base, search, map) {
 	var provider = {
 		geocode: function(request, options) {
 			var promise = new ymaps.util.Promise();
@@ -8,7 +8,9 @@ define('widgets/search', ['ui', 'base', 'search'], function(ui, base, search) {
 
 				base.each(places, function(place) {
 					objects.add(new ymaps.Placemark(place.location, {
+						id: place.id,
 						name: place.name,
+						level: place.level,
 						description: place.description,
 						boundedBy: [place.location, place.location]
 					}));
@@ -34,6 +36,10 @@ define('widgets/search', ['ui', 'base', 'search'], function(ui, base, search) {
 	return {
 		name: 'search',
 
+		/**
+		 * @public
+		 * @returns {ymaps.control.SearchControl}
+		 */
 		init: function() {
 			// TODO autosubmit by timeout
 
@@ -42,12 +48,33 @@ define('widgets/search', ['ui', 'base', 'search'], function(ui, base, search) {
 				$('.ymaps-b-search input').focus();
 			}, 0);
 
-			return new ymaps.control.SearchControl({
+			var control = new ymaps.control.SearchControl({
 				provider: provider,
 				useMapBounds: true,
 				top: 5,
 				left: 5
 			});
+
+			control.events
+				.add('resultselect', this.onResultSelect, control);
+
+			return control;
+		},
+
+		/**
+		 * @private
+		 * @param {ymap.Event} evt
+		 */
+		onResultSelect: function(evt) {
+			var index = evt.get('resultIndex'),
+				result = this.getResultsArray()[index],
+				level = result.properties.get('level'),
+				newMapType = map.DEFAULT_MAP_TYPE_PREFIX + level;
+
+			if (newMapType !== QiwiMap.getType()) {
+				QiwiMap.setType(newMapType)
+			}
 		}
+
 	}
 });

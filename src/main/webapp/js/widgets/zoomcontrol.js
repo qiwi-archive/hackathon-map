@@ -5,10 +5,8 @@ define('widgets/zoomcontrol', ['ui'], function() {
 		init: function() {
 			return new ymaps.control.ZoomControl({
 				customTips: [
-					{ index: 1, value: "Мелко" },
-			        { index: 2, value: "Средне" },
-			        { index: 3, value: "Крупно" },
-			        { index: 4, value: "Слишком крупно" }
+					{ index: 7, value: "Мелко" },
+			        { index: 10, value: "Крупно" }
 				],
 				right:5,
 				top:5

@@ -27,7 +27,7 @@ require.config({
 require(['log', 'map', 'ui', 'link', 'place', 'search'], function(log, map, ui, link, place, search) {
 	log('Hi there!');
 
-	map = map.create();
+	window.QiwiMap = map = map.create();
 	ui.initWidgets(map);
 
 	var current = link.current();

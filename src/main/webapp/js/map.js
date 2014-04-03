@@ -6,17 +6,6 @@
 define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, search, $) {
 	'use strict';
 
-	var DEFAULT_MAP_TYPE = 'my#type1',
-		MAP_TYPES = [
-			{level: 1, name: 'первый этаж'},
-			{level: 2},
-			{level: 3},
-			{level: 4},
-			{level: 5},
-			{level: 6},
-			{level: 7, name: 'седьмой этаж'}
-		];
-
 	/**
 	 * @public
 	 * @returns {ymaps.Map}
@@ -28,20 +17,19 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 				[1, 1]
 			]);
 
-		_.each(MAP_TYPES, makeMapTypeInstance);
+		_.each(this.MAP_TYPES, makeMapTypeInstance);
 
 		// Создадим карту в заданной системе координат.
-		var myMap = new ymaps.Map('map', {
+		return new ymaps.Map('map', {
 			center:[1, -1],
 			zoom:7,
-			type: DEFAULT_MAP_TYPE
+			type: this.DEFAULT_MAP_TYPE,
+			behaviors: ['default', 'scrollZoom']
 		}, {
 			maxZoom:10, // Максимальный коэффициент масштабирования для заданной проекции.
 			minZoom:7, // Минимальный коэффициент масштабирования.
 			projection:myProjection
 		});
-
-		return myMap;
 	}
 
 	/**
@@ -69,6 +57,18 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 	}
 
 	return {
+		DEFAULT_MAP_TYPE_PREFIX: 'my#type',
+		DEFAULT_MAP_TYPE: 'my#type1',
+		MAP_TYPES: [
+			{level: 1, name: 'первый этаж'},
+			{level: 2, name: 'второй этаж'},
+			{level: 3, name: 'третий этаж'},
+			{level: 4, name: 'четвертый этаж'},
+			{level: 5, name: 'пятый этаж'},
+			{level: 6, name: 'шестой этаж'},
+			{level: 7, name: 'седьмой этаж'}
+		],
+
 		create: createMap
 	};
 });
