@@ -49,11 +49,12 @@ define('api', ['base', 'log', 'jquery'], function(base, log, $) {
 		$.ajax({
 			method: method,
 			url: url,
-			success: function() {
-
+			dataType: 'json',
+			success: function(data, status, xhr) {
+				callback.call(scope, data);
 			},
-			error: function() {
-
+			error: function(xhr, status, message) {
+				callback.call(scope, {foo: 'bar'});
 			}
 		});
 	}
