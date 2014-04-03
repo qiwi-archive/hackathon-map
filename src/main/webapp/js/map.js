@@ -1,9 +1,5 @@
-define('map', ['ymaps', 'link', 'place', 'search'], function(ymaps, link, place, search) {
-	var query = link.current();
-	query.place &&
-		place.get(query.place);
-
-	ymaps.ready(function() {
+define('map', ['ymaps!'], function(ymaps) {
+	function createMap() {
 		var myProjection = new ymaps.projection.Cartesian([
 				// Определяем границы области отображения в декартовых координатах.
 				[-1, -1],
@@ -47,5 +43,9 @@ define('map', ['ymaps', 'link', 'place', 'search'], function(ymaps, link, place,
 				type:'my#type'
 			}))
 			.add('smallZoomControl', { right:5, top:5 });
-	});
+	}
+
+	return {
+		create: createMap
+	};
 });
