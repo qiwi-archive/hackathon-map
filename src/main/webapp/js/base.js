@@ -17,7 +17,7 @@ define('base', ['underscore'], function(underscore) {
 	 */
 	base.args = function(array, slice) {
 		return Array.prototype.slice.call(array, slice|0);
-	}
+	};
 
 	/**
 	 * Calls function with scope and any arguments.
@@ -28,9 +28,9 @@ define('base', ['underscore'], function(underscore) {
 	 */
 	base.call = function(fn, scope) {
 		return base.isFunction(fn) ?
-			fn.apply(scope, args(arguments, 2)) :
+			fn.apply(scope, base.args(arguments, 2)) :
 			undefined;
-	}
+	};
 
 	/**
 	 * Applies function with scope and arguments.
@@ -44,7 +44,7 @@ define('base', ['underscore'], function(underscore) {
 		return base.isFunction(fn) ?
 			fn.apply(scope, args) :
 			undefined;
-	}
+	};
 
 	return base;
 })
