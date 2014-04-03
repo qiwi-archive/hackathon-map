@@ -20,7 +20,7 @@ define('base', ['underscore'], function(underscore) {
 	 * @return {Mixed}
 	 */
 	base.call = function(fn, scope) {
-		return isFunction(fn) ?
+		return base.isFunction(fn) ?
 			fn.apply(scope, args(arguments, 2)) :
 			undefined;
 	}
@@ -34,7 +34,7 @@ define('base', ['underscore'], function(underscore) {
 	 * @return {Mixed}
 	 */
 	base.apply = function(fn, scope, args) {
-		return isFunction(fn) ?
+		return base.isFunction(fn) ?
 			fn.apply(scope, args) :
 			undefined;
 	}
