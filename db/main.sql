@@ -1,4 +1,5 @@
-﻿drop table hq_object;
+
+drop table hq_object;
 
 drop table hq_point2place;
 
@@ -13,6 +14,8 @@ drop table hq_place_type;
 drop sequence hq_point_pk;
 
 drop sequence hq_place_pk;
+
+drop sequence hq_object_pk;
 
 --
 
@@ -113,6 +116,7 @@ create table hq_point2place(
     constraint hq_p2p_point_fk references hq_point(hqpt_id),
   hq_p2p_order number(10)
     constraint hq_p2p_order_nn not null,
+  constraint hq_p2p_point_place_uq unique (hq_p2p_place, hq_p2p_point),
   constraint hq_p2p_place_order_uq unique (hq_p2p_place, hq_p2p_order)
 );
 
@@ -126,9 +130,18 @@ create table hq_object
     constraint hqo_place_fk references hq_place(hqpl_id),
   hqo_type number(10) 
     constraint hqo_type_fk references hq_object_type(hqot_id),
-  hqo_name varchar2(1000),
-  hqo_description varchar2(1000)
+  hqo_name varchar2(1000)
 );
 
+create sequence hq_object_pk;
 
+create or replace trigger hq_object_b_i
+  before insert
+  on hq_object for each row
+begin
+  if :new.hqo_id is null then
+    :new.hqo_id := hq_object_pk.nextval;
+  end if;
+end hq_object_b_i;
+/
 
