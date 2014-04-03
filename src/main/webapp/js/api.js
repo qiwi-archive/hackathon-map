@@ -1,5 +1,7 @@
 define('api', ['base', 'log', 'jquery'], function(base, log, $) {
-	var PREFIX = '/api';
+	var PREFIX = 'api',
+		SEARCH = 'search',
+		PLACE = 'place';
 
 	function formatQuery(query) {
 		var parts = [];
@@ -86,6 +88,9 @@ define('api', ['base', 'log', 'jquery'], function(base, log, $) {
 	}
 
 	return {
+		SEARCH: SEARCH,
+		PLACE: PLACE,
+
 		request: request,
 		read: read,
 		write: write

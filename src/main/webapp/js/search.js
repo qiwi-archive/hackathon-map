@@ -15,7 +15,7 @@ define('search', ['base', 'api'], function(base, api) {
 		}
 		options = options || {};
 
-		api.read('search', {query: string}, callback, scope);
+		api.read(api.SEARCH, {query: string}, callback, scope);
 	}
 
 	return {
