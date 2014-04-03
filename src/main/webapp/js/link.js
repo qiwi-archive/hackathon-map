@@ -1,4 +1,11 @@
+/**
+ * Module for working with links -- URLs that could lead to objects on map.
+ * @class link
+ * @singleton
+ */
 define('link', ['base'], function(base) {
+	'use strict';
+
 	/**
 	 * @member link
 	 * @method current

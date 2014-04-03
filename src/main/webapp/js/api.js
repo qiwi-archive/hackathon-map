@@ -1,4 +1,11 @@
+/**
+ * Helper for working with server APIs.
+ * @class api
+ * @singleton
+ */
 define('api', ['base', 'log', 'jquery'], function(base, log, $) {
+	'use strict';
+
 	var PREFIX = 'api',
 		SEARCH = 'search',
 		PLACE = 'place';

@@ -1,4 +1,11 @@
+/**
+ * Module for working with main map.
+ * @class map
+ * @singleton
+ */
 define('map', ['ymaps!'], function(ymaps) {
+	'use strict';
+
 	function createMap() {
 		var myProjection = new ymaps.projection.Cartesian([
 				// Определяем границы области отображения в декартовых координатах.
@@ -27,7 +34,7 @@ define('map', ['ymaps!'], function(ymaps) {
 		));
 
 		// Создадим карту в заданной системе координат.
-		myMap = new ymaps.Map('map', {
+		var myMap = new ymaps.Map('map', {
 			center:[1, -1],
 			zoom:7,
 			type:'my#type'

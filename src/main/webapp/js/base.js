@@ -1,4 +1,11 @@
+/**
+ * Base utilities. Based on Underscore.js.
+ * @class base
+ * @singleton
+ */
 define('base', ['underscore'], function(underscore) {
+	'use strict';
+
 	var base = underscore;
 
 	/**

@@ -1,4 +1,11 @@
+/**
+ * Module for searching.
+ * @class search
+ * @singleton
+ */
 define('search', ['base', 'api'], function(base, api) {
+	'use strict';
+
 	/**
 	 * @member search
 	 * @method query

@@ -1,4 +1,11 @@
+/**
+ * Module for working with places.
+ * @class place
+ * @singleton
+ */
 define('place', ['base', 'api'], function(base, api) {
+	'use strict';
+
 	/**
 	 * @member place
 	 * @method loadPlace
