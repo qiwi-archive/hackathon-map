@@ -60,11 +60,11 @@ define('api', ['base', 'log', 'jquery'], function(base, log, $) {
 			url: url,
 			dataType: 'json',
 			success: function(data, status, xhr) {
-				log('api', 'RESULT', url, data);
+				log.debug('api', method, url, data);
 				base.call(callback, scope, data);
 			},
 			error: function(xhr, status, message) {
-				log('api', 'ERROR', url, status. message);
+				log.error('api', method, url, status. message);
 				base.call(callback, scope, {foo: 'bar'});
 			}
 		});

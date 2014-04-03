@@ -10,16 +10,36 @@ define('log', function() {
 		return new Date().toISOString().substr(11, 12);
 	}
 
-	function log() {
-		// TODO cross-browser
-		return console.log.apply(
+	function write(type, args) {
+		// TODO test cross-browser
+		return console[type].apply(
 			console,
 			Array.prototype.concat.apply(
 				[timestamp()],
-				arguments
+				args
 			)
 		);
 	}
+
+	function log() {
+		write('log', arguments);
+	}
+
+	log.debug = function() {
+		write('debug', arguments);
+	};
+	log.log = function() {
+		write('log', arguments);
+	};
+	log.info = function() {
+		write('info', arguments);
+	};
+	log.warn = function() {
+		write('warn', arguments);
+	};
+	log.error = function() {
+		write('error', arguments);
+	};
 
 	return log;
 });

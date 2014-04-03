@@ -24,7 +24,9 @@ require.config({
  * Main application logic.
  * @ignore
  */
-require(['map', 'link', 'place', 'search'], function(map, link, place, search) {
+require(['log', 'map', 'link', 'place', 'search'], function(log, map, link, place, search) {
+	log('Hi there!');
+
 	map.create();
 
 	var current = link.current();
