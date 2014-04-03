@@ -45,7 +45,7 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 			maxZoom: 4,
 			minZoom: 2,
 			projection: projection,
-			restrictMapArea: looseConstraints
+			restrictMapArea: strictConstraints
 		});
 
 		// DEBUG
