@@ -30,7 +30,8 @@ public class SearchProcessor extends HttpServlet {
 					.sql(SQL.SEARCH)
 					.arguments(query)
 					.call();
-			response.setCharacterEncoding("cp1251");
+			response.setCharacterEncoding("utf-8");
+			response.setContentType("application/json; charset=utf-8");
 			response.getWriter().println(result);
 			response.getWriter().flush();
 		} catch (Exception e) {
