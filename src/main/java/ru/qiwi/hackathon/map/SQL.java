@@ -24,4 +24,6 @@ public class SQL {
 			"order by o.hqo_name, hqpt_floor asc";
 
 	static final String ADD = "begin hq_map_pack.create_object(pi_x => ?, pi_y => ?, pi_floor => ?, pi_name => ?, pi_type => ?); end;";
+
+	static final String TYPE_LIST = "select * from hq_object_type";
 }
