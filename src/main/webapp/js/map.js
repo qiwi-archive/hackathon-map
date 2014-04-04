@@ -17,7 +17,25 @@ define('map', ['base', 'ymaps!', 'search', 'api', 'jquery'], function(base, ymap
 			{floor: 5, name: '5-й этаж'},
 			{floor: 6, name: '6-й этаж'},
 			{floor: 7, name: '7-й этаж'}
-		];
+		],
+		OBJECT_TYPES = {
+			1: 'Рабочее место',
+			2: 'Сотрудник',
+			3: 'Растение',
+			4: 'Слипбокс',
+			5: 'Кофе-пойнт',
+			6: 'Туалет',
+			7: 'Комната тишины',
+			8: 'Банкомат',
+			9: 'МФУ',
+			10: 'Подиум',
+			11: 'Нанопоилка',
+			12: 'Лифт',
+			13: 'Склад',
+			14: 'Комната уборщиц',
+			15: 'Душ',
+			16: 'Переодевалка'
+		};
 
 	var theMap,
 		currentFloor = DEFAULT_FLOOR,
@@ -121,22 +139,19 @@ define('map', ['base', 'ymaps!', 'search', 'api', 'jquery'], function(base, ymap
 				limit = 100;
 			base.each(data, function(item, i) {
 				var id = item.hqoId,
-					x = item.hqptX,
-					y = item.hqptY,
+					name = item.hqoName,
+					location = [item.hqptX, item.hqptY],
 					fl = item.hqptFloor,
 					type = item.hqoType;
 				if (fl != floor) {
 					return;
 				}
-				// TODO
-				if (type != 1) {
-					return;
-				}
 
 				objects.push(new ymaps.Placemark(
-					[x, y],
+					location,
 					{
-						clusterCaption: 'Place ' + id
+						clusterCaption: name,
+						balloonContent: [name, OBJECT_TYPES[type], floor + '-й этаж'].join('<br />')
 					},
 					{
 						preset: 'twirl#blackDotIcon'
