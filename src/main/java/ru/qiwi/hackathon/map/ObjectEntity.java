@@ -1,7 +1,11 @@
 package ru.qiwi.hackathon.map;
 
-import java.math.BigDecimal;
+import com.google.gson.Gson;
+import qiwi.core.access.definition.Operable;
 
+import static qiwi.core.access.AccessMode.READ;
+
+@Operable(READ)
 public class ObjectEntity {
 
 	private Long hqoId;
@@ -120,5 +124,10 @@ public class ObjectEntity {
 
 	public void setHqoName(Long hqoName) {
 		this.hqoName = hqoName;
+	}
+
+	public String toString() {
+		Gson gson = new Gson();
+        return gson.toJson(this);
 	}
 }

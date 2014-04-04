@@ -2,10 +2,7 @@ package ru.qiwi.hackathon.map;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import org.mortbay.util.ajax.JSON;
-import org.mortbay.util.ajax.JSONObjectConvertor;
 import qiwi.core.persistence.EntityCreator;
-import qiwi.util.codec.JsonEncoder;
 import ru.osmp.common.db.Database;
 import ru.osmp.common.db.Pools;
 import ru.osmp.common.db.creation.*;
@@ -30,7 +27,7 @@ public class HQServlet extends HttpServlet {
 			List<ObjectEntity> result = database.createBy(
 					ListCreator.by(EntityCreator.of(ObjectEntity.class)))
 					.pooled(Pools.MAIN)
-					.sql(" select * from hq_object o\n" +
+					.sql("select * from hq_object o\n" +
 							"  join hq_place p\n" +
 							"    on p.hqpl_id = o.hqo_place\n" +
 							"  join hq_point2place p2p\n" +
@@ -39,7 +36,7 @@ public class HQServlet extends HttpServlet {
 							"    on pt.hqpt_id = p2p.hq_p2p_point")
 					.call();
 
-			response.getWriter().println();
+			response.getWriter().println(result);
 			response.getWriter().flush();
 		} catch (Exception e) {
 			System.out.println("Fail hello");
