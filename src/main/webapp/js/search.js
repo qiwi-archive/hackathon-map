@@ -6,6 +6,8 @@
 define('search', ['base', 'api'], function(base, api) {
 	'use strict';
 
+	var emulatedPlaces;
+
 	/**
 	 * @member search
 	 * @method query
@@ -22,10 +24,28 @@ define('search', ['base', 'api'], function(base, api) {
 		}
 		options = options || {};
 
-		api.read(api.SEARCH, {query: string}, callback, scope);
+		emulatedPlaces ?
+			base.call(callback, scope, emulatedPlaces) :
+			api.read(api.SEARCH, {query: string}, callback, scope);
+	}
+
+	/**
+	 * @member search
+	 * @method emulate
+	 * @param {Object} place
+	 */
+	function emulate(place) {
+		if (!this.control) {
+			return;
+		}
+
+		emulatedPlaces = [place];
+		this.control.search(place.name);
+		emulatedPlaces = null;
 	}
 
 	return {
-		query: query
+		query: query,
+		emulate: emulate
 	}
 });

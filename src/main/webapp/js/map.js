@@ -64,11 +64,11 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 
 		// DEBUG
 	/*
-		map.events.add('click', function (e) {
-			map.balloon.isOpen() &&
-				map.balloon.close();
-			var coords = e.get('coordPosition');
-			map.balloon.open(coords, {
+		theMap.events.add('click', function (event) {
+			theMap.balloon.isOpen() &&
+				theMap.balloon.close();
+			var coords = event.get('coordPosition');
+			theMap.balloon.open(coords, {
 				contentBody: [
 					coords[0].toPrecision(6),
 					coords[1].toPrecision(6)

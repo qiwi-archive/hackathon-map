@@ -29,13 +29,17 @@ define('api', ['base', 'log', 'jquery'], function(base, log, $) {
 			scope = query;
 			callback = id;
 			query = id = null;
-		}
-		else if (base.isObject(id)) {
+		} else if (base.isObject(id)) {
 			scope = callback;
 			callback = query;
 			query = id;
 			id = null;
+		} else if (base.isFunction(query)) {
+			scope = callback;
+			callback = query;
+			query = null;
 		}
+
 		return {method: method, namespace: namespace, id: id, query: query, callback: callback, scope: scope};
 	}
 
@@ -65,7 +69,6 @@ define('api', ['base', 'log', 'jquery'], function(base, log, $) {
 			},
 			error: function(xhr, status, message) {
 				log.error('api', method, url, status. message);
-				base.call(callback, scope, {foo: 'bar'});
 			}
 		});
 	}

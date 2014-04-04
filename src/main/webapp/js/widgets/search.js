@@ -57,6 +57,9 @@ define('widgets/search', ['ui', 'base', 'search', 'map'], function(ui, base, sea
 			control.events
 				.add('resultselect', this.onResultSelect, control);
 
+			// NOTE tight coupling
+			search.control = control;
+
 			return control;
 		},
 
@@ -70,6 +73,5 @@ define('widgets/search', ['ui', 'base', 'search', 'map'], function(ui, base, sea
 				floor = result.properties.get('floor');
 			map.setFloor(floor);
 		}
-
-	}
+	};
 });
