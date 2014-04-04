@@ -3,7 +3,7 @@
  * @class map
  * @singleton
  */
-define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, search, $) {
+define('map', ['base', 'ymaps!', 'search', 'api', 'jquery'], function(base, ymaps, search, api, $) {
 	'use strict';
 
 	var MAP_TYPE_PREFIX = 'my#type',
@@ -71,8 +71,10 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 			setFloor(floor, true);
 		});
 
+		showFloorPlaces(currentFloor);
+		this.theMap = theMap;
+
 		// DEBUG
-	
 		theMap.events.add('click', function (event) {
 			theMap.balloon.isOpen() &&
 				theMap.balloon.close();
@@ -85,8 +87,6 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 				].join(', ')
 			});
 		});
-
-		this.theMap = theMap;
 
 		return theMap;
 	}
@@ -111,53 +111,49 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 
 	/**
 	 */
-	function showFloorPlaces() {
+	function showFloorPlaces(floor) {
 		theMap.geoObjects.each(function(object) {
 			theMap.geoObjects.remove(object);
 		});
 
-		// TEMPORARY
-		$.ajax({
-			url: 'request.do',
-			dataType: 'json',
-			success: function(data){
-				var objects = [],
-					limit = 100;
-				base.each(data, function(item, i) {
-					var id = item.hqoId,
-						x = item.hqptX,
-						y = item.hqptY,
-						floor = item.hqptFloor,
-						type = item.hqoType;
-					if (floor != currentFloor) {
-						return;
+		api.read('load_points', {floor: floor}, function(data) {
+			var objects = [],
+				limit = 100;
+			base.each(data, function(item, i) {
+				var id = item.hqoId,
+					x = item.hqptX,
+					y = item.hqptY,
+					fl = item.hqptFloor,
+					type = item.hqoType;
+				if (fl != floor) {
+					return;
+				}
+				// TODO
+				if (type != 1) {
+					return;
+				}
+
+				objects.push(new ymaps.Placemark(
+					[x, y],
+					{
+						clusterCaption: 'Place ' + id
+					},
+					{
+						preset: 'twirl#blackDotIcon'
 					}
-					if (type != 1) {
-						return;
-					}
+				));
+			});
 
-					objects.push(new ymaps.Placemark(
-						[x, y],
-						{
-							clusterCaption: 'Place ' + id
-						},
-						{
-							preset: 'twirl#blackDotIcon'
-						}
-					));
-				});
+			var clusterer = new ymaps.Clusterer({
+				preset: 'twirl#invertedBlackClusterIcons',
+				groupByCoordinates: false,
+				clusterDisableClickZoom: true,
+				gridSize: 64
+			});
 
-				var clusterer = new ymaps.Clusterer({
-					preset: 'twirl#invertedBlackClusterIcons',
-					groupByCoordinates: false,
-					clusterDisableClickZoom: true,
-					gridSize: 64
-				});
+			clusterer.add(objects);
 
-				clusterer.add(objects);
-
-				theMap.geoObjects.add(clusterer);
-			}
+			theMap.geoObjects.add(clusterer);
 		});
 	}
 
