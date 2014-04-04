@@ -22,4 +22,6 @@ public class SQL {
 			"  join hq_point pt on pt.hqpt_id = p2p.hq_p2p_point\n" +
 			"where lower(o.hqo_name) like lower('%'||?||'%')\n" +
 			"order by o.hqo_name, hqpt_floor asc";
+
+	static final String ADD = "begin hq_map_pack.create_object(pi_x => ?, pi_y => ?, pi_floor => ?, pi_name => ?, pi_type => ?); end;";
 }
