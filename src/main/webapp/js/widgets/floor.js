@@ -8,7 +8,7 @@ define('widgets/floor', ['ui'], function() {
 		 */
 		init: function() {
 			var control = new ymaps.control.TypeSelector(
-				['my#type2', 'my#type3', 'my#type4', 'my#type5', 'my#type6', 'my#type7'],
+				['my#type1', 'my#type2', 'my#type3', 'my#type4', 'my#type5', 'my#type6', 'my#type7'],
 				{
 					position: {left: 5}
 				}

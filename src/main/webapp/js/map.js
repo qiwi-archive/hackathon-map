@@ -7,10 +7,10 @@ define('map', ['base', 'ymaps!', 'search', 'api', 'jquery'], function(base, ymap
 	'use strict';
 
 	var MAP_TYPE_PREFIX = 'my#type',
-		DEFAULT_FLOOR = 3,
+		DEFAULT_FLOOR = 1,
 		DEFAULT_MAP_TYPE = MAP_TYPE_PREFIX + DEFAULT_FLOOR,
 		MAP_TYPES = [
-			//{floor: 1, name: '1-й этаж'},
+			{floor: 1, name: '1-й этаж'},
 			{floor: 2, name: '2-й этаж'},
 			{floor: 3, name: '3-й этаж'},
 			{floor: 4, name: '4-й этаж'},
