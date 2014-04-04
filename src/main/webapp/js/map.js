@@ -161,17 +161,14 @@ define('map', ['base', 'ymaps!', 'search', 'api', 'jquery'], function(base, ymap
 	 * @param {Object} result
 	 */
 	function showResult(result) {
+		var floor = result.properties.get('floor');
+		setFloor(floor);
+
 		currentResult &&
 			theMap.geoObjects.remove(currentResult);
+		currentResult = result;
 
-		currentResult = new ymaps.Placemark(
-			result.properties.get('location'),
-			{},
-			{
-				preset: 'twirl#redDotIcon'
-			}
-		);
-		theMap.geoObjects.add(currentResult);
+		theMap.geoObjects.add(result);
 	}
 
 	/**
@@ -185,6 +182,10 @@ define('map', ['base', 'ymaps!', 'search', 'api', 'jquery'], function(base, ymap
 	 * @param {Number} floor
 	 */
 	function setFloor(floor, skipSetType) {
+		if (floor === currentFloor) {
+			return;
+		}
+
 		currentFloor = floor;
 		showFloorPlaces(floor);
 

@@ -7,15 +7,27 @@ define('widgets/search', ['ui', 'base', 'search', 'map'], function(ui, base, sea
 				var objects = new ymaps.GeoObjectArray();
 
 				base.each(places, function(place) {
-					var location = [place.hqptX, place.hqptY];
+					var id = place.hqoId,
+						name = place.hqoName,
+						location = [place.hqptX, place.hqptY],
+						floor = place.hqptFloor;
 
-					objects.add(new ymaps.Placemark(location, {
-						id: place.hqoId,
-						name: place.hqoName,
-						floor: place.hqptFloor,
-						location: location,
-						boundedBy: [location, location]
-					}));
+					objects.add(
+						new ymaps.Placemark(
+							location,
+							{
+								id: id,
+								name: name,
+								floor: floor,
+								location: location,
+								boundedBy: [location, location],
+								balloonContent: [name, floor + '-й этаж'].join('<br />')
+							},
+							{
+								preset: 'twirl#redDotIcon',
+							}
+						)
+					);
 				});
 
 				promise.resolve({
@@ -77,9 +89,7 @@ define('widgets/search', ['ui', 'base', 'search', 'map'], function(ui, base, sea
 		 */
 		onResultSelect: function(evt) {
 			var index = evt.get('resultIndex'),
-				result = this.getResultsArray()[index],
-				floor = result.properties.get('floor');
-			map.setFloor(floor);
+				result = this.getResultsArray()[index];
 			map.showResult(result);
 		}
 	};
