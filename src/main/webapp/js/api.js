@@ -65,7 +65,7 @@ define('api', ['base', 'log', 'jquery'], function(base, log, $) {
 			url: url,
 			dataType: 'json',
 			success: function(data, status, xhr) {
-				log.debug('api', method, url, data);
+				//log.debug('api', method, url, data);
 				base.call(callback, scope, data);
 			},
 			error: function(xhr, status, message) {

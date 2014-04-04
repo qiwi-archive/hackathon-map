@@ -92,20 +92,6 @@ define('map', ['base', 'ymaps!', 'search', 'api', 'jquery'], function(base, ymap
 		showFloorPlaces(currentFloor);
 		this.theMap = theMap;
 
-		// DEBUG
-		theMap.events.add('click', function (event) {
-			theMap.balloon.isOpen() &&
-				theMap.balloon.close();
-
-			var coords = event.get('coordPosition');
-			theMap.balloon.open(coords, {
-				contentBody: [
-					coords[0].toPrecision(6),
-					coords[1].toPrecision(6)
-				].join(', ')
-			});
-		});
-
 		return theMap;
 	}
 
@@ -194,6 +180,12 @@ define('map', ['base', 'ymaps!', 'search', 'api', 'jquery'], function(base, ymap
 	}
 
 	/**
+	 */
+	function getFloor() {
+		return currentFloor;
+	}
+
+	/**
 	 * @param {Number} floor
 	 */
 	function setFloor(floor, skipSetType) {
@@ -215,6 +207,7 @@ define('map', ['base', 'ymaps!', 'search', 'api', 'jquery'], function(base, ymap
 		create: createMap,
 		showResult: showResult,
 		hideResult: hideResult,
+		getFloor: getFloor,
 		setFloor: setFloor
 	};
 });
