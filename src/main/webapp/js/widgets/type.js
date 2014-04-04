@@ -29,7 +29,7 @@ define('widgets/type', ['ui'], function() {
 				//map.setCenter([40.695537, -73.97552]);
 			});
 
-			return control;
+			return {control: control};
 		}
 	};
 });

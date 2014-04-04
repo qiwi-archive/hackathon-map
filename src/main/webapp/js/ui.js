@@ -3,6 +3,7 @@ define(
 	[
 		'base',
 		'log',
+		'widgets/add',
 		'widgets/floor',
 		'widgets/search',
 		'widgets/type',
@@ -24,12 +25,13 @@ function(base, log) {
 		 * @param {ymaps.Map} map
 		 */
 		initWidgets: function(map) {
-			var ctrl = map.controls;
+			var controls = map.controls;
 
 			base.each(this.widgets, function(widget) {
 				try {
 					log('ui', 'widget', widget.name);
-					ctrl.add(widget.init());
+					var data = widget.init();
+					controls.add(data.control, data.options);
 				} catch (e) {
 					throw(['widget broken', e])
 				}

@@ -62,7 +62,14 @@ define('widgets/search', ['ui', 'base', 'search', 'map'], function(ui, base, sea
 			// NOTE tight coupling
 			search.control = control;
 
-			return control;
+			return {
+				control: control,
+				options: {
+					float: 'left',
+					floatIndex: 1,
+					maxWidth: 300
+				}
+			};
 		},
 
 		/**
