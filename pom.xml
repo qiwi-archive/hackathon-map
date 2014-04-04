@@ -13,6 +13,12 @@
 		<build.war.name>hackathon-map</build.war.name>
 	</properties>
 
+	<parent>
+		<groupId>qiwi.domain</groupId>
+		<artifactId>qiwi-domain-parent</artifactId>
+		<version>1.20.2</version>
+	</parent>
+
 	<dependencies>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -38,7 +44,10 @@
 		<dependency>
 			<groupId>qiwi.common</groupId>
 			<artifactId>qiwi-common-db</artifactId>
-			<version>3.98.0</version>
+		</dependency>
+		<dependency>
+			<groupId>qiwi.domain</groupId>
+			<artifactId>qiwi-domain-mapping</artifactId>
 		</dependency>
 	</dependencies>
 
