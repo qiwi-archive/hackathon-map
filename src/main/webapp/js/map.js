@@ -76,6 +76,7 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 			});
 		});
 	*/
+		this.theMap = theMap;
 
 		return theMap;
 	}
@@ -98,6 +99,32 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 		));
 	}
 
+	var currentResult;
+
+	/**
+	 * @param {Object} result
+	 */
+	function showResult(result) {
+		currentResult &&
+			theMap.geoObjects.remove(currentResult);
+
+		currentResult = new ymaps.Placemark(
+			result.properties.get('location'),
+			{},
+			{
+				preset: 'twirl#redDotIcon'
+			}
+		);
+		theMap.geoObjects.add(currentResult);
+	}
+
+	/**
+	 */
+	function hideResult() {
+		currentResult &&
+			theMap.geoObjects.remove(currentResult);
+	}
+
 	/**
 	 * @param {Number} floor
 	 */
@@ -109,6 +136,8 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 
 	return {
 		create: createMap,
+		showResult: showResult,
+		hideResult: hideResult,
 		setFloor: setFloor
 	};
 });

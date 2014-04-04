@@ -12,6 +12,7 @@ define('widgets/search', ['ui', 'base', 'search', 'map'], function(ui, base, sea
 						name: place.name,
 						floor: place.floor,
 						description: place.description,
+						location: place.location,
 						boundedBy: [place.location, place.location]
 					}));
 				});
@@ -51,7 +52,8 @@ define('widgets/search', ['ui', 'base', 'search', 'map'], function(ui, base, sea
 
 			var control = new ymaps.control.SearchControl({
 				provider: provider,
-				useMapBounds: true
+				useMapBounds: true,
+				noPlacemark: true
 			});
 
 			control.events
@@ -72,6 +74,7 @@ define('widgets/search', ['ui', 'base', 'search', 'map'], function(ui, base, sea
 				result = this.getResultsArray()[index],
 				floor = result.properties.get('floor');
 			map.setFloor(floor);
+			map.showResult(result);
 		}
 	};
 });
