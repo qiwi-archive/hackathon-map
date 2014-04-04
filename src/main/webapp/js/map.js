@@ -18,7 +18,9 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 			{floor: 7, name: '7-й этаж'}
 		];
 
-	var theMap;
+	var theMap,
+		currentFloor = 3,
+		currentResult;
 
 	var officeWidth = 86,
 		officeHeight = 16,
@@ -63,7 +65,7 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 		});
 
 		// DEBUG
-	/*
+	
 		theMap.events.add('click', function (event) {
 			theMap.balloon.isOpen() &&
 				theMap.balloon.close();
@@ -75,7 +77,60 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 				].join(', ')
 			});
 		});
-	*/
+	
+
+		// TEMPORARY
+		$.ajax({
+			url: 'request.do',
+			dataType: 'json',
+			success: function(data){
+				var objects = [],
+					limit = 100;
+				base.each(data, function(item, i) {
+					if (i % 2) {
+						//return;
+					}
+
+					var id = item.hqoId,
+						x = item.hqptX,
+						y = item.hqptY,
+						floor = item.hqptFloor,
+						type = item.hqoType;
+					if (floor != currentFloor) {
+						return;
+					}
+					if (type != 1) {
+						return;
+					}
+
+					objects.push(new ymaps.Placemark(
+						[x, y],
+						{
+							clusterCaption: 'Place ' + id
+						},
+						{
+							preset: 'twirl#blackDotIcon'
+						}
+					));
+				});
+
+				var clusterer = new ymaps.Clusterer({
+					preset: 'twirl#invertedBlackClusterIcons',
+					groupByCoordinates: false,
+					clusterDisableClickZoom: true,
+					gridSize: 64
+				});
+
+				/**
+				 * В кластеризатор можно добавить javascript-массив меток (не геоколлекцию) или одну метку.
+				 * @see http://api.yandex.ru/maps/doc/jsapi/2.x/ref/reference/Clusterer.xml#add
+				 */
+				clusterer.add(objects);
+
+				theMap.geoObjects.add(clusterer);
+			}
+		});
+
 		this.theMap = theMap;
 
 		return theMap;
@@ -98,8 +153,6 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 			['my#layer' + config.floor]
 		));
 	}
-
-	var currentResult;
 
 	/**
 	 * @param {Object} result
@@ -129,6 +182,8 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 	 * @param {Number} floor
 	 */
 	function setFloor(floor) {
+		currentFloor = floor;
+
 		var type = MAP_TYPE_PREFIX + floor;
 		type !== theMap.getType() &&
 			theMap.setType(type);

@@ -2,16 +2,18 @@ define(
 	'ui',
 	[
 		'base',
+		'log',
 		'widgets/floor',
 		'widgets/search',
+		'widgets/type',
 		'widgets/zoom'
 	],
-function(base) {
+function(base, log) {
 	var widgets = {};
 
-	base.each(base.args(arguments, 1), function(item) {
-		item &&
-			(widgets[item.name] = item);
+	base.each(base.args(arguments, 2), function(widget) {
+		widget &&
+			(widgets[widget.name] = widget);
 	});
 
 	return {
@@ -24,9 +26,10 @@ function(base) {
 		initWidgets: function(map) {
 			var ctrl = map.controls;
 
-			base.each(this.widgets, function(item) {
+			base.each(this.widgets, function(widget) {
 				try {
-					ctrl.add(item.init());
+					log('ui', 'widget', widget.name);
+					ctrl.add(widget.init());
 				} catch (e) {
 					throw(['widget broken', e])
 				}
