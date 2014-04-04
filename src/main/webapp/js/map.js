@@ -22,19 +22,19 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 
 	var officeWidth = 86,
 		officeHeight = 16,
-		marginHorizontal = 25,
-		marginVertical = 17.4,
+		marginHorizontal = 9.7, // by hands
+		marginVertical = 11.7, // by hands
 		areaWidth = officeWidth + 2 * marginHorizontal,
-		pictureWidth = 4096, // width + 2 margins
-		pictureHeight = 1536; // height + 2 margins
+		pictureWidth = 8192, // width + 2 margins
+		pictureHeight = 3072; // height + 2 margins
 
 	var bounds = [
-		[-marginHorizontal, -areaWidth * 10 / 16 - marginVertical],
-		[areaWidth - marginHorizontal, areaWidth * 6 / 16 - marginVertical]
+		[-marginHorizontal, -areaWidth * 20 / 32 - marginVertical],
+		[areaWidth - marginHorizontal, areaWidth * 12 / 32 - marginVertical]
 	];
 	var looseConstraints = [
-		[-marginHorizontal * 3, -marginVertical * 3],
-		[areaWidth + marginHorizontal, areaWidth * 6 / 16 + marginHorizontal]
+		[-marginHorizontal * 4, -marginVertical * 4],
+		[areaWidth + marginHorizontal * 2, areaWidth * 12 / 32 + marginHorizontal * 2]
 	];
 	var strictConstraints = [
 		[-marginHorizontal, -marginVertical],
@@ -56,7 +56,7 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 			type: DEFAULT_MAP_TYPE,
 			behaviors: ['default', 'scrollZoom']
 		}, {
-			maxZoom: 4,
+			maxZoom: 5,
 			minZoom: 2,
 			projection: projection,
 			restrictMapArea: looseConstraints
