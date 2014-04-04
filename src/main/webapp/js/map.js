@@ -38,17 +38,18 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 
 		var map = new ymaps.Map('map', {
 			center: [officeWidth / 2, officeHeight / 2],
-			zoom: 2,
+			zoom: 3,
 			type: this.DEFAULT_MAP_TYPE,
 			behaviors: ['default', 'scrollZoom']
 		}, {
 			maxZoom: 4,
-			minZoom: 3,
+			minZoom: 2,
 			projection: projection,
 			restrictMapArea: looseConstraints
 		});
 
 		// DEBUG
+	/*
 		map.events.add('click', function (e) {
 			map.balloon.isOpen() &&
 				map.balloon.close();
@@ -57,9 +58,10 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 				contentBody: [
 					coords[0].toPrecision(6),
 					coords[1].toPrecision(6)
-					].join(', ')
+				].join(', ')
 			});
 		});
+	*/
 
 		return map;
 	}
