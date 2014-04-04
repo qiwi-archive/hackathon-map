@@ -47,9 +47,11 @@ define('widgets/filter', ['ui', 'map'], function (ui, map) {
 				}
 			);
 
+			button.state.set('selected', true);
 			button.filterId = config.filterId;
 			button.events
-				.add('click', this.onFilterChange, this);
+				.add('select', this.onFilterChange, this)
+				.add('deselect', this.onFilterChange, this);
 
 			return button;
 		},
@@ -59,12 +61,9 @@ define('widgets/filter', ['ui', 'map'], function (ui, map) {
 		 */
 		onFilterChange: function(evt) {
 			var filters = [],
-				btn = evt.originalEvent.target;
-
-			btn.pressed = !btn.pressed;
-			var buttons = this.control.filter(function(b) {
-				return !b.pressed;
-			});
+				buttons = this.control.filter(function(b) {
+					return !b.state.get('selected');
+				});
 
 			_.each(buttons, function(b) {
 				filters.push(b.filterId)

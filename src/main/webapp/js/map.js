@@ -128,7 +128,7 @@ define('map', ['base', 'ymaps!', 'search', 'api', 'jquery'], function(base, ymap
 			theMap.geoObjects.remove(object);
 		});
 
-		api.read(api.PLACES, {floor: floor}, function(data) {
+		api.read(api.PLACES, {floor: floor, filters: filters}, function(data) {
 			var objects = [],
 				limit = 100;
 			base.each(data, function(item, i) {

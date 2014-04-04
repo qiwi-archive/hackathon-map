@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 @Singleton
@@ -26,9 +27,9 @@ public class LoadPointsProcessor extends HttpServlet {
 			List<ObjectEntity> result = database.createBy(
 					ListCreator.by(EntityCreator.of(ObjectEntity.class)))
 					.pooled(Pools.MAIN)
-					.sql(SQL.LOAD_POINTS)
+					.sql(prepareSQL(request))
 					.arguments(
-						request.getParameter("floor")
+							request.getParameter("floor")
 					)
 					.call();
 
@@ -39,5 +40,12 @@ public class LoadPointsProcessor extends HttpServlet {
 		} catch (Exception e) {
 			System.out.println("Failed to load points");
 		}
+	}
+
+	private String prepareSQL(HttpServletRequest request) {
+		String filters = request.getParameter("filters");
+
+		return SQL.LOAD_POINTS
+				.replace("{filters}", filters.equals("") ? "" : "and hqo_type not in (" + filters + ")");
 	}
 }

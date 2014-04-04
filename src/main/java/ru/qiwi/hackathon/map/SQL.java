@@ -10,7 +10,8 @@ public class SQL {
 			"    on p2p.hq_p2p_place = p.hqpl_id\n" +
 			"  join hq_point pt\n" +
 			"    on pt.hqpt_id = p2p.hq_p2p_point    \n" +
-			"    where hqpt_floor = ?";
+			"    where hqpt_floor = ?" +
+			"    {filters}";
 
 	static final String LOAD_OBJECT = "select * from hq_people_tmp where id = ?";
 
