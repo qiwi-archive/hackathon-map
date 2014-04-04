@@ -32,6 +32,8 @@ public class LoadObjectProcessor extends HttpServlet {
 					)
 					.call();
 
+			response.setCharacterEncoding("utf-8");
+			response.setContentType("application/json; charset=utf-8");
 			response.getWriter().println(personEntity);
 			response.getWriter().flush();
 		} catch (Exception e) {
