@@ -1,13 +1,19 @@
 package ru.qiwi.hackathon.map;
 
+import com.google.gson.Gson;
+import qiwi.core.access.definition.Operable;
+
+import static qiwi.core.access.AccessMode.READ;
+
+@Operable(READ)
 public class PersonEntity {
 
-		private Long id;
-		private String fio;
-		private Long place;
-		private Long tlf;
-		private String floor;
-		private String email;
+	private Long id;
+	private String fio;
+	private Long place;
+	private Long tlf;
+	private String floor;
+	private String email;
 
 	public Long getId() {
 		return id;
@@ -55,5 +61,10 @@ public class PersonEntity {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String toString() {
+		Gson gson = new Gson();
+		return gson.toJson(this);
 	}
 }

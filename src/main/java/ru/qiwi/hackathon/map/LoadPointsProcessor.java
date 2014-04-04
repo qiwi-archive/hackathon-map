@@ -15,11 +15,10 @@ import java.io.IOException;
 import java.util.List;
 
 @Singleton
-public class HQServlet extends HttpServlet {
+public class LoadPointsProcessor extends HttpServlet {
 
 	@Inject
 	private Database database;
-
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -27,19 +26,16 @@ public class HQServlet extends HttpServlet {
 			List<ObjectEntity> result = database.createBy(
 					ListCreator.by(EntityCreator.of(ObjectEntity.class)))
 					.pooled(Pools.MAIN)
-					.sql("select * from hq_object o\n" +
-							"  join hq_place p\n" +
-							"    on p.hqpl_id = o.hqo_place\n" +
-							"  join hq_point2place p2p\n" +
-							"    on p2p.hq_p2p_place = p.hqpl_id\n" +
-							"  join hq_point pt\n" +
-							"    on pt.hqpt_id = p2p.hq_p2p_point")
+					.sql(SQL.LOAD_POINTS)
+					.arguments(
+						request.getParameter("floor")
+					)
 					.call();
 
 			response.getWriter().println(result);
 			response.getWriter().flush();
 		} catch (Exception e) {
-			System.out.println("Fail hello");
+			System.out.println("Failed to load points");
 		}
 	}
 }
