@@ -7,10 +7,11 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 	'use strict';
 
 	var MAP_TYPE_PREFIX = 'my#type',
-		DEFAULT_MAP_TYPE = MAP_TYPE_PREFIX + 3,
+		DEFAULT_FLOOR = 3,
+		DEFAULT_MAP_TYPE = MAP_TYPE_PREFIX + DEFAULT_FLOOR,
 		MAP_TYPES = [
 			//{floor: 1, name: '1-й этаж'},
-			//{floor: 2, name: '2-й этаж'},
+			{floor: 2, name: '2-й этаж'},
 			{floor: 3, name: '3-й этаж'},
 			{floor: 4, name: '4-й этаж'},
 			{floor: 5, name: '5-й этаж'},
@@ -19,7 +20,7 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 		];
 
 	var theMap,
-		currentFloor = 3,
+		currentFloor = DEFAULT_FLOOR,
 		currentResult;
 
 	var officeWidth = 86,
@@ -64,11 +65,18 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 			restrictMapArea: looseConstraints
 		});
 
+		theMap.events.add('typechange', function (event) {
+			var type = event.get('newType'),
+				floor = (type || '').replace(MAP_TYPE_PREFIX, '')|0 || DEFAULT_FLOOR;
+			setFloor(floor, true);
+		});
+
 		// DEBUG
 	
 		theMap.events.add('click', function (event) {
 			theMap.balloon.isOpen() &&
 				theMap.balloon.close();
+
 			var coords = event.get('coordPosition');
 			theMap.balloon.open(coords, {
 				contentBody: [
@@ -77,7 +85,36 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 				].join(', ')
 			});
 		});
-	
+
+		this.theMap = theMap;
+
+		return theMap;
+	}
+
+	/**
+	 * @param {Object} config
+	 */
+	function makeMapTypeInstance(config) {
+		var Layer = function () {
+			return new ymaps.Layer(
+				'tiles/' + config.floor + '/%z/%x-%y.png',
+				{notFoundTile: 'tiles/empty.png'}
+			);
+		};
+
+		ymaps.layer.storage.add('my#layer' + config.floor, Layer);
+		ymaps.mapType.storage.add('my#type' + config.floor, new ymaps.MapType(
+			config.name,
+			['my#layer' + config.floor]
+		));
+	}
+
+	/**
+	 */
+	function showFloorPlaces() {
+		theMap.geoObjects.each(function(object) {
+			theMap.geoObjects.remove(object);
+		});
 
 		// TEMPORARY
 		$.ajax({
@@ -87,10 +124,6 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 				var objects = [],
 					limit = 100;
 				base.each(data, function(item, i) {
-					if (i % 2) {
-						//return;
-					}
-
 					var id = item.hqoId,
 						x = item.hqptX,
 						y = item.hqptY,
@@ -121,37 +154,11 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 					gridSize: 64
 				});
 
-				/**
-				 * В кластеризатор можно добавить javascript-массив меток (не геоколлекцию) или одну метку.
-				 * @see http://api.yandex.ru/maps/doc/jsapi/2.x/ref/reference/Clusterer.xml#add
-				 */
 				clusterer.add(objects);
 
 				theMap.geoObjects.add(clusterer);
 			}
 		});
-
-		this.theMap = theMap;
-
-		return theMap;
-	}
-
-	/**
-	 * @param {Object} config
-	 */
-	function makeMapTypeInstance(config) {
-		var Layer = function () {
-			return new ymaps.Layer(
-				'tiles/' + config.floor + '/%z/%x-%y.png',
-				{notFoundTile: 'tiles/empty.png'}
-			);
-		};
-
-		ymaps.layer.storage.add('my#layer' + config.floor, Layer);
-		ymaps.mapType.storage.add('my#type' + config.floor, new ymaps.MapType(
-			config.name,
-			['my#layer' + config.floor]
-		));
 	}
 
 	/**
@@ -181,12 +188,15 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 	/**
 	 * @param {Number} floor
 	 */
-	function setFloor(floor) {
+	function setFloor(floor, skipSetType) {
 		currentFloor = floor;
+		showFloorPlaces();
 
-		var type = MAP_TYPE_PREFIX + floor;
-		type !== theMap.getType() &&
-			theMap.setType(type);
+		if (!skipSetType) {
+			var type = MAP_TYPE_PREFIX + floor;
+			type !== theMap.getType() &&
+				theMap.setType(type);
+		}
 	}
 
 	return {
