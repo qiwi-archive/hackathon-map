@@ -6,6 +6,20 @@
 define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, search, $) {
 	'use strict';
 
+	var MAP_TYPE_PREFIX = 'my#type',
+		DEFAULT_MAP_TYPE = MAP_TYPE_PREFIX + 3,
+		MAP_TYPES = [
+			//{floor: 1, name: '1-й этаж'},
+			//{floor: 2, name: '2-й этаж'},
+			{floor: 3, name: '3-й этаж'},
+			{floor: 4, name: '4-й этаж'},
+			{floor: 5, name: '5-й этаж'},
+			{floor: 6, name: '6-й этаж'},
+			{floor: 7, name: '7-й этаж'}
+		];
+
+	var theMap;
+
 	var officeWidth = 86,
 		officeHeight = 16,
 		marginHorizontal = 25,
@@ -34,12 +48,12 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 	function createMap() {
 		var projection = new ymaps.projection.Cartesian(bounds);
 
-		_.each(this.MAP_TYPES, makeMapTypeInstance);
+		_.each(MAP_TYPES, makeMapTypeInstance);
 
-		var map = new ymaps.Map('map', {
+		theMap = new ymaps.Map('map', {
 			center: [officeWidth / 2, officeHeight / 2],
 			zoom: 3,
-			type: this.DEFAULT_MAP_TYPE,
+			type: DEFAULT_MAP_TYPE,
 			behaviors: ['default', 'scrollZoom']
 		}, {
 			maxZoom: 4,
@@ -63,7 +77,7 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 		});
 	*/
 
-		return map;
+		return theMap;
 	}
 
 	/**
@@ -73,9 +87,7 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 		var Layer = function () {
 			return new ymaps.Layer(
 				'tiles/' + config.floor + '/%z/%x-%y.png',
-				{
-					notFoundTile: 'tiles/empty.png'
-				}
+				{notFoundTile: 'tiles/empty.png'}
 			);
 		};
 
@@ -86,19 +98,17 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 		));
 	}
 
-	return {
-		DEFAULT_MAP_TYPE_PREFIX: 'my#type',
-		DEFAULT_MAP_TYPE: 'my#type3',
-		MAP_TYPES: [
-			//{floor: 1, name: '1-й этаж'},
-			//{floor: 2, name: '2-й этаж'},
-			{floor: 3, name: '3-й этаж'},
-			{floor: 4, name: '4-й этаж'},
-			{floor: 5, name: '5-й этаж'},
-			{floor: 6, name: '6-й этаж'},
-			{floor: 7, name: '7-й этаж'}
-		],
+	/**
+	 * @param {Number} floor
+	 */
+	function setFloor(floor) {
+		var type = MAP_TYPE_PREFIX + floor;
+		type !== theMap.getType() &&
+			theMap.setType(type);
+	}
 
-		create: createMap
+	return {
+		create: createMap,
+		setFloor: setFloor
 	};
 });

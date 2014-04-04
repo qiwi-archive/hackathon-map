@@ -66,12 +66,8 @@ define('widgets/search', ['ui', 'base', 'search', 'map'], function(ui, base, sea
 		onResultSelect: function(evt) {
 			var index = evt.get('resultIndex'),
 				result = this.getResultsArray()[index],
-				floor = result.properties.get('floor'),
-				newMapType = map.DEFAULT_MAP_TYPE_PREFIX + floor;
-
-			if (newMapType !== QiwiMap.getType()) {
-				QiwiMap.setType(newMapType)
-			}
+				floor = result.properties.get('floor');
+			map.setFloor(floor);
 		}
 
 	}
