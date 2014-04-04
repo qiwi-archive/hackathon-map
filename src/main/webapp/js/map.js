@@ -39,6 +39,7 @@ define('map', ['base', 'ymaps!', 'search', 'api', 'jquery'], function(base, ymap
 
 	var theMap,
 		currentFloor = DEFAULT_FLOOR,
+		currentFilters = [],
 		currentResult;
 
 	var officeWidth = 86,
@@ -115,12 +116,12 @@ define('map', ['base', 'ymaps!', 'search', 'api', 'jquery'], function(base, ymap
 
 	/**
 	 */
-	function showFloorPlaces(floor) {
+	function showFloorPlaces(floor, filters) {
 		theMap.geoObjects.each(function(object) {
 			theMap.geoObjects.remove(object);
 		});
 
-		api.read(api.PLACES, {floor: floor}, function(data) {
+		api.read(api.PLACES, {floor: floor, filters: filters}, function(data) {
 			var objects = [],
 				limit = 100;
 			base.each(data, function(item, i) {
@@ -203,11 +204,21 @@ define('map', ['base', 'ymaps!', 'search', 'api', 'jquery'], function(base, ymap
 		}
 	}
 
+	/**
+	 * @param {Number} floor
+	 */
+	function setFilters(filters) {
+		currentFilters = filters;
+
+		showFloorPlaces(currentFloor, currentFilters);
+	}
+
 	return {
 		create: createMap,
 		showResult: showResult,
 		hideResult: hideResult,
 		getFloor: getFloor,
-		setFloor: setFloor
+		setFloor: setFloor,
+		setFilters: setFilters
 	};
 });

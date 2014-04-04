@@ -1,27 +1,35 @@
-define('widgets/filter', ['ui', 'api'], function () {
+define('widgets/filter', ['ui', 'map'], function (ui, map) {
 	'use strict';
 
 	return {
 		name: 'filter',
 
+		map: map,
+		WORKPLACE_ID: 1,
+		HUMAN_ID: 2,
+
 		buttonLayout: "<div class='my-button [if state.selected]my-button-selected[endif]'>$[data.content]</div>",
 
 		/**
 		 * @public
-		 * @return {ymaps.control.RollupButton}
+		 * @return {ymaps.control.Group}
 		 */
 		init: function () {
-			return new ymaps.control.Group(
+			this.control = new ymaps.control.Group(
 				{
 					items: [
-						makeButtonInstance({name: 'filter1', layout: this.buttonLayout}),
-						makeButtonInstance({name: 'filter2', layout: this.buttonLayout}),
-						makeButtonInstance({name: 'filter3', layout: this.buttonLayout})
+						this.makeButtonInstance({name: 'рабочие места', filterId: this.WORKPLACE_ID}),
+						this.makeButtonInstance({name: 'сотрудники', filterId: this.HUMAN_ID})
 					]
-				}, {
-					position: {right: 5, top: 5}
 				}
 			);
+
+			return {
+				control: this.control,
+				options: {
+					right: 5
+				}
+			}
 		},
 
 		/**
@@ -35,12 +43,13 @@ define('widgets/filter', ['ui', 'api'], function () {
 					data: {
 						content: config.name
 					},
-					layout: config.layout
+					layout: this.buttonLayout
 				}
 			);
 
-			button.event
-				.add('click', this.onFilterChange);
+			button.filterId = config.filterId;
+			button.events
+				.add('click', this.onFilterChange, this);
 
 			return button;
 		},
@@ -48,8 +57,20 @@ define('widgets/filter', ['ui', 'api'], function () {
 		/**
 		 * @private
 		 */
-		onFilterChange: function() {
+		onFilterChange: function(evt) {
+			var filters = [],
+				btn = evt.originalEvent.target;
 
+			btn.pressed = !btn.pressed;
+			var buttons = this.control.filter(function(b) {
+				return !b.pressed;
+			});
+
+			_.each(buttons, function(b) {
+				filters.push(b.filterId)
+			});
+
+			this.map.setFilters(filters)
 		}
 	};
 });
