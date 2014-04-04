@@ -40,7 +40,8 @@ define('map', ['base', 'ymaps!', 'search', 'api', 'jquery'], function(base, ymap
 	var theMap,
 		currentFloor = DEFAULT_FLOOR,
 		currentFilters = [],
-		currentResult;
+		currentResult,
+		objectTypes = {};
 
 	var officeWidth = 86,
 		officeHeight = 16,
@@ -88,6 +89,12 @@ define('map', ['base', 'ymaps!', 'search', 'api', 'jquery'], function(base, ymap
 			var type = event.get('newType'),
 				floor = (type || '').replace(MAP_TYPE_PREFIX, '')|0 || DEFAULT_FLOOR;
 			setFloor(floor, true);
+		});
+
+		api.read(api.TYPES, function(items) {
+			base.each(items, function(item) {
+				objectTypes[item.hqotId] = item.hqotDescription;
+			});
 		});
 
 		showFloorPlaces(currentFloor);
@@ -138,7 +145,7 @@ define('map', ['base', 'ymaps!', 'search', 'api', 'jquery'], function(base, ymap
 					location,
 					{
 						clusterCaption: name,
-						balloonContent: [name, OBJECT_TYPES[type], floor + '-й этаж'].join('<br />')
+						balloonContent: [name, objectTypes[type] || 'Неизвестнвй объект', floor + '-й этаж'].join('<br />')
 					},
 					{
 						preset: 'twirl#blackDotIcon'
