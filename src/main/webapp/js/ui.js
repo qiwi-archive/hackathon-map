@@ -6,7 +6,8 @@ define(
 		'widgets/add',
 		'widgets/floor',
 		'widgets/search',
-		'widgets/zoom'
+		'widgets/zoom',
+		'widgets/filter'
 	],
 function(base, log) {
 	var widgets = {};
