@@ -72,17 +72,17 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 	function makeMapTypeInstance(config) {
 		var Layer = function () {
 			return new ymaps.Layer(
-				'tiles/' + config.level + '/%z/%x-%y.png',
+				'tiles/' + config.floor + '/%z/%x-%y.png',
 				{
 					notFoundTile: 'tiles/empty.png'
 				}
 			);
 		};
 
-		ymaps.layer.storage.add('my#layer' + config.level, Layer);
-		ymaps.mapType.storage.add('my#type' + config.level, new ymaps.MapType(
+		ymaps.layer.storage.add('my#layer' + config.floor, Layer);
+		ymaps.mapType.storage.add('my#type' + config.floor, new ymaps.MapType(
 			config.name,
-			['my#layer' + config.level]
+			['my#layer' + config.floor]
 		));
 	}
 
@@ -90,13 +90,13 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 		DEFAULT_MAP_TYPE_PREFIX: 'my#type',
 		DEFAULT_MAP_TYPE: 'my#type3',
 		MAP_TYPES: [
-			//{level: 1, name: '1-й этаж'},
-			//{level: 2, name: '2-й этаж'},
-			{level: 3, name: '3-й этаж'},
-			{level: 4, name: '4-й этаж'},
-			{level: 5, name: '5-й этаж'},
-			{level: 6, name: '6-й этаж'},
-			{level: 7, name: '7-й этаж'}
+			//{floor: 1, name: '1-й этаж'},
+			//{floor: 2, name: '2-й этаж'},
+			{floor: 3, name: '3-й этаж'},
+			{floor: 4, name: '4-й этаж'},
+			{floor: 5, name: '5-й этаж'},
+			{floor: 6, name: '6-й этаж'},
+			{floor: 7, name: '7-й этаж'}
 		],
 
 		create: createMap

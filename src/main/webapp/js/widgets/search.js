@@ -10,7 +10,7 @@ define('widgets/search', ['ui', 'base', 'search', 'map'], function(ui, base, sea
 					objects.add(new ymaps.Placemark(place.location, {
 						id: place.id,
 						name: place.name,
-						level: place.level,
+						floor: place.floor,
 						description: place.description,
 						boundedBy: [place.location, place.location]
 					}));
@@ -66,8 +66,8 @@ define('widgets/search', ['ui', 'base', 'search', 'map'], function(ui, base, sea
 		onResultSelect: function(evt) {
 			var index = evt.get('resultIndex'),
 				result = this.getResultsArray()[index],
-				level = result.properties.get('level'),
-				newMapType = map.DEFAULT_MAP_TYPE_PREFIX + level;
+				floor = result.properties.get('floor'),
+				newMapType = map.DEFAULT_MAP_TYPE_PREFIX + floor;
 
 			if (newMapType !== QiwiMap.getType()) {
 				QiwiMap.setType(newMapType)
