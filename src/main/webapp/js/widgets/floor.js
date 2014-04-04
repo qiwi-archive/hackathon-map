@@ -17,9 +17,7 @@ define('widgets/floor', ['ui'], function() {
 			return {
 				control: control,
 				options: {
-					float: 'left',
-					floatIndex: 0,
-					maxWidth: 150
+					left: 5
 				}
 			};
 		}

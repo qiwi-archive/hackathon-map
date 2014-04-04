@@ -20,9 +20,7 @@ define('widgets/add', ['ui'], function() {
 			return {
 				control: control,
 				options: {
-					float: 'left',
-					floatIndex: 3,
-					maxWidth: 150
+					left: 345
 				}
 			};
 		}

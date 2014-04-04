@@ -116,7 +116,7 @@ define('map', ['base', 'ymaps!', 'search', 'api', 'jquery'], function(base, ymap
 			theMap.geoObjects.remove(object);
 		});
 
-		api.read('load_points', {floor: floor}, function(data) {
+		api.read(api.PLACES, {floor: floor}, function(data) {
 			var objects = [],
 				limit = 100;
 			base.each(data, function(item, i) {
@@ -186,7 +186,7 @@ define('map', ['base', 'ymaps!', 'search', 'api', 'jquery'], function(base, ymap
 	 */
 	function setFloor(floor, skipSetType) {
 		currentFloor = floor;
-		showFloorPlaces();
+		showFloorPlaces(floor);
 
 		if (!skipSetType) {
 			var type = MAP_TYPE_PREFIX + floor;

@@ -7,13 +7,14 @@ define('widgets/search', ['ui', 'base', 'search', 'map'], function(ui, base, sea
 				var objects = new ymaps.GeoObjectArray();
 
 				base.each(places, function(place) {
-					objects.add(new ymaps.Placemark(place.location, {
-						id: place.id,
-						name: place.name,
-						floor: place.floor,
-						description: place.description,
-						location: place.location,
-						boundedBy: [place.location, place.location]
+					var location = [place.hqptX, place.hqptY];
+
+					objects.add(new ymaps.Placemark(location, {
+						id: place.hqoId,
+						name: place.hqoName,
+						floor: place.hqptFloor,
+						location: location,
+						boundedBy: [location, location]
 					}));
 				});
 
@@ -65,9 +66,7 @@ define('widgets/search', ['ui', 'base', 'search', 'map'], function(ui, base, sea
 			return {
 				control: control,
 				options: {
-					float: 'left',
-					floatIndex: 1,
-					maxWidth: 300
+					left: 100
 				}
 			};
 		},

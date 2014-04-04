@@ -6,7 +6,6 @@ define(
 		'widgets/add',
 		'widgets/floor',
 		'widgets/search',
-		'widgets/type',
 		'widgets/zoom'
 	],
 function(base, log) {

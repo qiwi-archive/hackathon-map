@@ -8,7 +8,8 @@ define('api', ['base', 'log', 'jquery'], function(base, log, $) {
 
 	var PREFIX = 'api',
 		SEARCH = 'search',
-		PLACE = 'place';
+		PLACE = 'load_object',
+		PLACES = 'load_points';
 
 	function formatQuery(query) {
 		var parts = [];
@@ -102,6 +103,7 @@ define('api', ['base', 'log', 'jquery'], function(base, log, $) {
 	return {
 		SEARCH: SEARCH,
 		PLACE: PLACE,
+		PLACES: PLACES,
 
 		request: request,
 		read: read,
