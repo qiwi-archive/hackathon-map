@@ -4,7 +4,7 @@ define('widgets/floor', ['ui'], function() {
 
 		/**
 		 * @public
-		 * @returns {ymaps.control.TypeSelector}
+		 * @return {ymaps.control.TypeSelector}
 		 */
 		init: function() {
 			var cmp = new ymaps.control.TypeSelector(

@@ -38,10 +38,11 @@ define('widgets/search', ['ui', 'base', 'search', 'map'], function(ui, base, sea
 
 		/**
 		 * @public
-		 * @returns {ymaps.control.SearchControl}
+		 * @return {ymaps.control.SearchControl}
 		 */
 		init: function() {
-			// TODO autosubmit by timeout
+			// TODO autosearch by timeout.
+			// TODO remove search results when user clears input.
 
 			// WORKAROUND
 			setTimeout(function() {

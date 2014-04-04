@@ -43,12 +43,12 @@ define('map', ['base', 'ymaps!', 'search', 'jquery'], function(base, ymaps, sear
 
 	/**
 	 * @public
-	 * @returns {ymaps.Map}
+	 * @return {ymaps.Map}
 	 */
 	function createMap() {
 		var projection = new ymaps.projection.Cartesian(bounds);
 
-		_.each(MAP_TYPES, makeMapTypeInstance);
+		base.each(MAP_TYPES, makeMapTypeInstance);
 
 		theMap = new ymaps.Map('map', {
 			center: [officeWidth / 2, officeHeight / 2],
