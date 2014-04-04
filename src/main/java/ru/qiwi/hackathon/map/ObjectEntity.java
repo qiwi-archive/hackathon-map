@@ -11,7 +11,7 @@ public class ObjectEntity {
 	private Long hqoId;
 	private Long hqoPlace;
 	private Long hqoType;
-	private Long hqoName;
+	private String hqoName;
 	private Long hqplId;
 	private Long hqplType;
 	private Long hqP2PPlace;
@@ -118,11 +118,11 @@ public class ObjectEntity {
 		this.hqoType = hqoType;
 	}
 
-	public Long getHqoName() {
+	public String getHqoName() {
 		return hqoName;
 	}
 
-	public void setHqoName(Long hqoName) {
+	public void setHqoName(String hqoName) {
 		this.hqoName = hqoName;
 	}
 

@@ -46,6 +46,10 @@
 			<artifactId>qiwi-common-db</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>qiwi.common</groupId>
+			<artifactId>qiwi-common-web-util</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>qiwi.domain</groupId>
 			<artifactId>qiwi-domain-mapping</artifactId>
 		</dependency>
