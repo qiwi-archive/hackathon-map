@@ -32,5 +32,7 @@ require(['log', 'map', 'ui', 'link', 'place', 'search'], function(log, map, ui, 
 
 	var current = link.current();
 	current.place &&
-		place.get(current.place);
+		place.get(current.place, function(place) {
+			// TODO show as search result
+		});
 });
