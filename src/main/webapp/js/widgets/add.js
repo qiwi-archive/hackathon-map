@@ -70,7 +70,8 @@ define('widgets/add', ['ui', 'map'], function(ui, map) {
 
 			map.theMap.balloon.open(location, {
 				contentBody: [
-					'Добавить объект'
+					'Добавить объект',
+					[location[0].toPrecision(6), location[1].toPrecision(6)].join(', ')
 				].join('<br />')
 			});
 		}
