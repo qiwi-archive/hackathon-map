@@ -13,6 +13,21 @@
 		<build.war.name>hackathon-map</build.war.name>
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>central</id>
+			<url>https://maven.osmp.ru/nexus/content/groups/public</url>
+			<releases>
+				<enabled>true</enabled>
+				<checksumPolicy>${releases.checksum.policy}</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
+	</repositories>
+
 	<parent>
 		<groupId>qiwi.domain</groupId>
 		<artifactId>qiwi-domain-parent</artifactId>

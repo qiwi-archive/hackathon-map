@@ -34,7 +34,9 @@ define('map', ['base', 'ymaps!', 'search', 'api', 'jquery'], function(base, ymap
 			13: 'Склад',
 			14: 'Комната уборщиц',
 			15: 'Душ',
-			16: 'Переодевалка'
+			16: 'Переодевалка',
+			17: 'Переговорная',
+			18: 'Лестница'
 		};
 
 	var theMap,
@@ -145,7 +147,7 @@ define('map', ['base', 'ymaps!', 'search', 'api', 'jquery'], function(base, ymap
 					location,
 					{
 						clusterCaption: name,
-						balloonContent: [name, objectTypes[type] || 'Неизвестнвй объект', floor + '-й этаж'].join('<br />')
+						balloonContent: [name, objectTypes[type] || 'Неизвестный объект', floor + '-й этаж'].join('<br />')
 					},
 					{
 						preset: 'twirl#blackDotIcon'
@@ -226,6 +228,7 @@ define('map', ['base', 'ymaps!', 'search', 'api', 'jquery'], function(base, ymap
 		hideResult: hideResult,
 		getFloor: getFloor,
 		setFloor: setFloor,
-		setFilters: setFilters
+		setFilters: setFilters,
+		OBJECT_TYPES: OBJECT_TYPES
 	};
 });

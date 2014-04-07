@@ -10,7 +10,8 @@ define('api', ['base', 'log', 'jquery'], function(base, log, $) {
 		SEARCH = 'search',
 		PLACE = 'load_object',
 		PLACES = 'load_points',
-		TYPES = 'type_list';
+		TYPES = 'type_list',
+		ADD = 'add';
 
 	function formatQuery(query) {
 		var parts = [];
@@ -70,7 +71,7 @@ define('api', ['base', 'log', 'jquery'], function(base, log, $) {
 				base.call(callback, scope, data);
 			},
 			error: function(xhr, status, message) {
-				log.error('api', method, url, status. message);
+				log.error('api', method, url, status.message);
 			}
 		});
 	}
@@ -98,7 +99,7 @@ define('api', ['base', 'log', 'jquery'], function(base, log, $) {
 	 * @param {Mixed} [scope]
 	 */
 	function write(namespace, id, query, callback, scope) {
-		return request(formatOptions('GET', namespace, id, query, callback, scope));
+		return request(formatOptions('POST', namespace, id, query, callback, scope));
 	}
 
 	return {
@@ -106,6 +107,7 @@ define('api', ['base', 'log', 'jquery'], function(base, log, $) {
 		PLACE: PLACE,
 		PLACES: PLACES,
 		TYPES: TYPES,
+		ADD: ADD,
 
 		request: request,
 		read: read,
