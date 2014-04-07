@@ -34,6 +34,13 @@ public class AddProcessor extends HttpServlet {
 							Integer.parseInt(request.getParameter("type"))
 					)
 					.call();
+			addLogger.info("Added: " +
+					"name: " + request.getParameter("name") +
+					"\t, x: " + request.getParameter("x") +
+					"\t, y: " + request.getParameter("y") +
+					"\t, floor: " + request.getParameter("floor") +
+					"\t, type: " + request.getParameter("type")
+			);
 			response.getWriter().println("{\"success\": \"true\"}");
 		} catch (Exception e) {
 			log.error("Exception during add: " + e.getLocalizedMessage());
@@ -48,4 +55,5 @@ public class AddProcessor extends HttpServlet {
 	}
 
 	private static final Logger log = Logger.getLogger(AddProcessor.class);
+	private static final Logger addLogger = Logger.getLogger("add");
 }
