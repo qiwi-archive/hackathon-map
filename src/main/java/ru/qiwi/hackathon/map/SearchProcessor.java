@@ -25,6 +25,7 @@ public class SearchProcessor extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			final String query = request.getParameter("query");
+			statistics.info(query + "\t" + request.getRemoteHost());
 			List<ObjectEntity> result = database.createBy(ListCreator.by(EntityCreator.of(ObjectEntity.class)))
 					.pooled(Pools.MAIN)
 					.sql(SQL.SEARCH)
@@ -40,4 +41,5 @@ public class SearchProcessor extends HttpServlet {
 	}
 
 	private static final Logger log = Logger.getLogger(SearchProcessor.class);
+	private static final Logger statistics = Logger.getLogger("search");
 }
